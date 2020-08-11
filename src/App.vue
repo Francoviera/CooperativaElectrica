@@ -1,11 +1,32 @@
 <template>
-  <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
-    <router-view/>
-  </div>
+  <ion-app id="app">
+    <ion-toolbar color="dark">
+      <ion-buttons >
+        <ion-icon slot="icon-only" name="menu" @click="openFirst()"></ion-icon>
+      </ion-buttons >
+    </ion-toolbar>
+    <ion-menu side="start" menu-id="first" content-id="main">
+      <ion-header>
+        <ion-toolbar color="dark">
+          <ion-buttons >
+            <ion-title>Menu</ion-title>
+          </ion-buttons >
+        </ion-toolbar>
+      </ion-header>
+      <ion-content>
+        <ion-list>
+          <ion-item>Menu Item</ion-item>
+          <ion-item>Menu Item</ion-item>
+          <ion-item>Menu Item</ion-item>
+          <ion-item>Menu Item</ion-item>
+          <ion-item>Menu Item</ion-item>
+        </ion-list>
+      </ion-content>
+    </ion-menu>
+    <!-- <ion-content> -->
+      <router-view id="main" />
+    <!-- </ion-content> -->
+  </ion-app>
 </template>
 
 <style>
@@ -30,3 +51,15 @@
   color: #42b983;
 }
 </style>
+<script>
+  import { Component, Vue } from 'vue-property-decorator';
+
+  @Component()
+  export default class Example extends Vue {
+
+    openFirst() {
+      this.menu.enable(true, 'first');
+      this.menu.open('first');
+    }
+  }
+</script>
