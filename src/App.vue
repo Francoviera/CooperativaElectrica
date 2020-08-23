@@ -1,25 +1,33 @@
 <template>
   <ion-app id="app">
-    <ion-toolbar color="dark">
-      <ion-buttons >
-        <ion-icon slot="icon-only" name="menu" @click="openFirst()"></ion-icon>
-      </ion-buttons >
-    </ion-toolbar>
     <ion-menu side="start" menu-id="first" content-id="main">
-      <ion-header>
-        <ion-toolbar color="dark">
-          <ion-buttons >
-            <ion-title>Menu</ion-title>
-          </ion-buttons >
-        </ion-toolbar>
-      </ion-header>
       <ion-content>
-        <ion-list>
-          <ion-item>Menu Item</ion-item>
-          <ion-item>Menu Item</ion-item>
-          <ion-item>Menu Item</ion-item>
-          <ion-item>Menu Item</ion-item>
-          <ion-item>Menu Item</ion-item>
+        <div class="menu-header">
+        </div>
+        <div class="header-content">
+          <img class="avatar-male" src="./assets/avatar-male.png" alt="">
+          <ion-label>
+            <h2> Tecnico Nombre</h2>
+          </ion-label>
+        </div>
+        <div class="action-button">
+          <ion-button>
+            <ion-icon name="add"></ion-icon> Agregar Medicion 
+          </ion-button>
+        </div>
+        <ion-list class="menu-items" lines="none">
+          <ion-item class="active">
+            <router-link to="/" style="text-decoration:none"><ion-icon name="home"></ion-icon> Home </router-link>
+          </ion-item>
+          <ion-item class="active">
+            <router-link to="/usuarios" style="text-decoration:none"><ion-icon name="md-contacts"></ion-icon> Usuarios </router-link>
+          </ion-item>
+          <ion-item class="active">
+            <router-link to="/rutas" style="text-decoration:none"><ion-icon name="git-branch"></ion-icon> Rutas </router-link>
+          </ion-item>
+          <ion-item class="active">
+            <router-link to="/configuracion" style="text-decoration:none"><ion-icon name="settings"></ion-icon> Configuraciones </router-link>
+          </ion-item>
         </ion-list>
       </ion-content>
     </ion-menu>
@@ -52,14 +60,7 @@
 }
 </style>
 <script>
-  import { Component, Vue } from 'vue-property-decorator';
-
-  @Component()
-  export default class Example extends Vue {
-
-    openFirst() {
-      this.menu.enable(true, 'first');
-      this.menu.open('first');
-    }
+  export default {
+     
   }
 </script>

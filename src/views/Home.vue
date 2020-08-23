@@ -1,18 +1,29 @@
 <template>
-  <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div>
+    <HeaderComponent />
+    <!-- <Usuarios-Component  
+      v-show="url == 'usuarios'"> 
+    </Usuarios-Component> -->
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
-
-export default {
-  name: 'Home',
-  components: {
-    HelloWorld
+  import HeaderComponent from '@/components/Header-Component.vue'
+  export default {
+    name: 'Home',
+    components: {
+      HeaderComponent
+    },
+    data: function(){
+      return{
+          url: "home",
+      }
+    },
+    methods: {
+      pagUsuarios(){
+        this.getUsuarios();
+        this.url= 'usuarios';
+      },
+    }
   }
-}
 </script>
