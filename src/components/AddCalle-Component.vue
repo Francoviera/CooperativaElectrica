@@ -6,11 +6,11 @@
                 <ion-label position="floating">Nombre</ion-label>
                 <ion-input class="form-control" :value="nombre" @input= "nombre = $event.target.value"></ion-input>
             </ion-item>
-            <ion-item>
+            <!-- <ion-item>
                 <ion-select multiple="true" :value="direcciones" @ionChange="direcciones= $event.target.value">
                     <ion-select-option  v-for="(usuario, index) of usuarios" :key="index" :value="usuario.nombre">{{usuario.nombre}}</ion-select-option>
                 </ion-select>
-            </ion-item>
+            </ion-item> -->
             <ion-card-content>
                 <ion-button type="submit" expand="block">Agregar</ion-button>
             </ion-card-content>
@@ -22,7 +22,7 @@
     props:['calles', 'usuarios'],
     data(){
       return{
-        direcciones: '',
+        // direcciones: '',
         // calles: [],
         nombre: '',
         // usuarios: [],  
@@ -40,13 +40,14 @@
     // },
     methods: {
       agregar(){
-        let arreglo= this.direcciones.split(",");
+        // let arreglo= this.direcciones.split(",");
 
-        if(this.nombre != '' && this.direcciones != []){
-            this.calles.push({
-                nombre: this.nombre,
-                usuarios: arreglo
-            });
+        if(this.nombre != ''){
+            // this.calles.push({
+            //     nombre: this.nombre,
+            //     usuarios: arreglo
+            // });
+            this.calles.push(this.nombre.toLowerCase());
             localStorage.setItem('calles', JSON.stringify(this.calles));
             
             this.nombre= '';

@@ -21,11 +21,18 @@
                 </ion-item>
               </ion-item>
               
+              <ion-item>
                 <ion-item>
-                  <ion-label position="floating">Dirección</ion-label>
-                  <ion-input class="form-control" :value="direccion" @input= "direccion = $event.target.value"></ion-input>
+                  <ion-label position="floating">Calle</ion-label>
+                  <ion-select placeholder="Seleccione" :value="direccion.calle" @ionChange="direccion.calle= $event.target.value">
+                    <ion-select-option v-for="(calle, index) of calles" :key="index" :value= calle> {{calle}}</ion-select-option>
+                  </ion-select>
                 </ion-item>
-
+                <ion-item>
+                  <ion-label position="floating">Numero</ion-label>
+                  <ion-input class="form-control" :value="direccion.numero" @input= "direccion.numero = $event.target.value"></ion-input>
+                </ion-item>
+              </ion-item>
               <ion-item>
                 <ion-item>
                   <ion-label position="floating">Socio N°</ion-label>
@@ -69,7 +76,7 @@
                   {{usuario.nombre}} {{usuario.apellido}}
                 </ion-col>
                 <ion-col>
-                  {{usuario.direccion}} 
+                  {{usuario.direccion.calle}} {{usuario.direccion.numero}} 
                 </ion-col>
                 <ion-col>
                   {{usuario.socio}}
@@ -92,19 +99,25 @@
       return{
           nombre: '',
           apellido: '',
-          direccion: '',
+          direccion: {
+            calle: '',
+            numero: ''
+          },
           categoria: '',
           clave: '',
           socio: '',
           usuarios: [],
+          calles: [],
       }
     },
     mounted(){
       let datosDB= JSON.parse(localStorage.getItem('usuarios'));
-      if(datosDB === null){
-        this.usuarios = [];
-      }else{
+      if(datosDB != null){
         this.usuarios = datosDB;
+      }
+      datosDB= JSON.parse(localStorage.getItem('calles'));
+      if(datosDB != null){
+          this.calles = datosDB;
       }
 
     },
@@ -121,7 +134,10 @@
         });
         this.nombre= '';
         this.apellido= '';
-        this.direccion= '';
+        this.direccion= {
+          calle: '',
+          numero: ''
+        };
         this.categoria= '';
         this.clave= '';
         this.socio= '';
