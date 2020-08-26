@@ -12,7 +12,7 @@
         </div>
         <div class="action-button">
           <ion-button>
-            <ion-icon name="add"></ion-icon> Agregar Medicion 
+            <router-link to="/agregarMedicion" class="links"><ion-icon name="add"></ion-icon> Agregar Medicion </router-link>
           </ion-button>
         </div>
         <ion-list class="menu-items" lines="none">

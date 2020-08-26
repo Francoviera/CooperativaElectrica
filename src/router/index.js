@@ -28,6 +28,11 @@ Vue.use(VueRouter)
     name: 'Rutas',
     component: () => import(/* webpackChunkName: "about" */ '../views/Rutas.vue')
   },
+  {
+    path: '/agregarMedicion',
+    name: 'AgregarMedicion',
+    component: () => import(/* webpackChunkName: "about" */ '../views/AgregarMedicion.vue')
+  },
 ]
 
 const router = new VueRouter({

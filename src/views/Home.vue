@@ -1,6 +1,11 @@
 <template>
   <div>
     <HeaderComponent />
+    <ion-card>
+      <ion-card-header>
+      <ion-card-title>Home</ion-card-title>
+      </ion-card-header>
+    </ion-card>
     <!-- <Usuarios-Component  
       v-show="url == 'usuarios'"> 
     </Usuarios-Component> -->
