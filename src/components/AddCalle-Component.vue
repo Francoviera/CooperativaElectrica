@@ -8,7 +8,7 @@
             </ion-item>
             <ion-item>
                 <ion-select multiple="true" :value="direcciones" @ionChange="direcciones= $event.target.value">
-                    <ion-select-option  v-for="(usuario, index) of usuarios" :key="index" :value="usuario.socio">{{usuario.nombre}}</ion-select-option>
+                    <ion-select-option  v-for="(usuario, index) of usuarios" :key="index" :value="usuario.nombre">{{usuario.nombre}}</ion-select-option>
                 </ion-select>
             </ion-item>
             <ion-card-content>
@@ -19,24 +19,25 @@
 </template>
 <script>
   export default {
+    props:['calles', 'usuarios'],
     data(){
       return{
         direcciones: '',
-        calles: [],
+        // calles: [],
         nombre: '',
-        usuarios: [],  
+        // usuarios: [],  
       }
     },
-    mounted(){
-        let datosDB= JSON.parse(localStorage.getItem('calles'));
-        if(datosDB != null){
-            this.calles = datosDB;
-        }
-        datosDB= JSON.parse(localStorage.getItem('usuarios'));
-        if(datosDB != null){
-            this.usuarios = datosDB;
-        }
-    },
+    // mounted(){
+    //     let datosDB= JSON.parse(localStorage.getItem('calles'));
+    //     if(datosDB != null){
+    //         this.calles = datosDB;
+    //     }
+    //     datosDB= JSON.parse(localStorage.getItem('usuarios'));
+    //     if(datosDB != null){
+    //         this.usuarios = datosDB;
+    //     }
+    // },
     methods: {
       agregar(){
         let arreglo= this.direcciones.split(",");
@@ -49,9 +50,9 @@
             localStorage.setItem('calles', JSON.stringify(this.calles));
             
             this.nombre= '';
-            this.calles= [];
 
-            this.$emit('pagRutas');
+            this.$emit('getDatos');
+            this.$emit('pagCalles');
         }else{
             alert("Porfavor complete todos los Campos")
         }

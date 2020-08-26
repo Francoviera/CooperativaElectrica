@@ -18,7 +18,7 @@
                 </ion-fab-button>
                 <ion-fab-list side="end">
                     <ion-fab-button @click="pagAddRuta()"><ion-icon name="add"></ion-icon></ion-fab-button>
-                    <ion-fab-button @click="pagRutas()"><ion-icon name="list-box"></ion-icon></ion-fab-button>
+                    <ion-fab-button @click="pagRutas()"><ion-icon name="md-clipboard"></ion-icon></ion-fab-button>
                 </ion-fab-list>
             </ion-fab>
 
@@ -29,7 +29,7 @@
                 </ion-fab-button>
                 <ion-fab-list side="start">
                     <ion-fab-button @click="pagAddCalle()"><ion-icon name="add"></ion-icon></ion-fab-button>
-                    <ion-fab-button @click="pagCalle()"><ion-icon name="list-box"></ion-icon></ion-fab-button>
+                    <ion-fab-button @click="pagCalles()"><ion-icon name="md-clipboard"></ion-icon></ion-fab-button>
                 </ion-fab-list>
             </ion-fab>
         
@@ -39,8 +39,16 @@
             <AddRutasComponent v-show="ruta === 0"/>
             <RutasComponent v-show="ruta === 1"/>
 
-            <AddCalleComponent v-show="calle === 0"/>
-            <CallesComponent v-show="calle === 1"/>
+            <AddCalleComponent 
+              :calles='calles' :usuarios='usuarios' 
+              @pagCalles="pagCalles"  @getDatos="getDatos" 
+              v-show="calle === 0"
+            />
+            <CallesComponent 
+              :calles='calles' :usuarios='usuarios'  
+              @getDatos="getDatos" 
+              v-show="calle === 1"
+            />
         <!-- </ion-content>  -->
     </div>
 </template>
@@ -63,10 +71,13 @@
       return{
         titulo: "Opciones",
         ruta: '',
-        calle: '', 
+        calle: '',
+        usuarios: [],
+        calles: [], 
       }
     },
     mounted(){
+      this.getDatos();
     },
     methods: {
       pagAddRuta(){
@@ -84,11 +95,21 @@
         this.titulo= 'Agregar Calle';
         this.calle= 0;
       },
-      pagCalle(){
+      pagCalles(){
         this.ruta= '';
         this.titulo= 'Lista de Calles';
         this.calle= 1;
       },
+      getDatos(){
+        let datosDB= JSON.parse(localStorage.getItem('calles'));
+        if(datosDB != null){
+            this.calles = datosDB;
+        }
+        datosDB= JSON.parse(localStorage.getItem('usuarios'));
+        if(datosDB != null){
+            this.usuarios = datosDB;
+        }
+      }
     }
   }
 </script>
