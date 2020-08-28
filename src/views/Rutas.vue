@@ -36,9 +36,15 @@
         </ion-header>
 
         <!-- <ion-content> -->
-            <AddRutasComponent v-show="ruta === 0"/>
-            <RutasComponent v-show="ruta === 1"/>
-
+            <AddRutasComponent 
+              :calles='calles' :rutas='rutas' :usuarios='usuarios'
+              @pagRutas="pagRutas"  @getDatos="getDatos" 
+              v-show="ruta === 0"
+            />
+            <RutasComponent 
+              :calles='calles' :rutas='rutas' :usuarios='usuarios'
+              v-show="ruta === 1"
+            />
             <AddCalleComponent 
               :calles='calles' :usuarios='usuarios' 
               @pagCalles="pagCalles"  @getDatos="getDatos" 
@@ -74,6 +80,7 @@
         calle: '',
         usuarios: [],
         calles: [], 
+        rutas: [],
       }
     },
     mounted(){
@@ -108,6 +115,10 @@
         datosDB= JSON.parse(localStorage.getItem('usuarios'));
         if(datosDB != null){
             this.usuarios = datosDB;
+        }
+        datosDB= JSON.parse(localStorage.getItem('rutas'));
+        if(datosDB != null){
+            this.rutas = datosDB;
         }
       }
     }

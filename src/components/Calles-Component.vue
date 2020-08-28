@@ -43,13 +43,13 @@
                 </ion-buttons>
                 <ion-list>
                     <ion-searchbar placeholder="Busque Aqui" :value="filtro.toLowerCase()" @input= "filtro = $event.target.value"></ion-searchbar>
-                    <ion-item-sliding v-for="(user, index) of searchUsuarios" :key="index">
+                    <ion-item-sliding v-for="user of searchUsuarios" :key="user.index">
                         <ion-item>
                             <ion-icon name="md-person"> </ion-icon>
-                            <ion-label>{{user}}</ion-label>
+                            <ion-label>{{user.nombre}}</ion-label>
                         </ion-item>
                         <ion-item-options side="end">
-                            <ion-item-option color="danger" @click="eliminarUsuario(index)">Eliminar</ion-item-option>
+                            <ion-item-option color="primary" @click="verUsuario(user.index)">Ver Usuario</ion-item-option>
                         </ion-item-options>
                     </ion-item-sliding>
                 </ion-list>
@@ -65,7 +65,7 @@
                     <form @submit.prevent="editarCalle">
                         <ion-item>
                             <ion-label position="floating">Nombre</ion-label>
-                            <ion-input class="form-control" :value="calle.nombre" @input= "calle.nombre = $event.target.value"></ion-input>
+                            <ion-input class="form-control" :value="calle.nombre.toLowerCase()" @input= "calle.nombre = $event.target.value"></ion-input>
                         </ion-item>
                         <ion-card-content>
                             <ion-button type="submit" expand="block">Editar</ion-button>
@@ -93,20 +93,10 @@
     },
     computed:{       
       searchUsuarios: function () {
-        return this.calle.usuarios.filter((item) => item.toLowerCase().includes(this.filtro));
+        return this.calle.usuarios.filter((item) => item.nombre.toLowerCase().includes(this.filtro));
       },
       
     },
-    // mounted(){
-    //     let datosDB= JSON.parse(localStorage.getItem('calles'));
-    //     if(datosDB != null){
-    //         this.calles = datosDB;
-    //     }
-    //     datosDB= JSON.parse(localStorage.getItem('usuarios'));
-    //     if(datosDB != null){
-    //         this.usuarios = datosDB;
-    //     }
-    // },
     methods: {
         cantUsuarios: function(nombre){
             if(this.usuarios.length > 0){
@@ -133,13 +123,12 @@
                 for (let i = 0; i < this.usuarios.length; i++) {
                     const e = this.usuarios[i];
                      if( e.direccion.calle === calle){
-                        this.usuarios.push({
+                        this.calle.usuarios.push({
                             nombre: e.nombre,
                             index: i
                         })
                     }
                 }
-                // this.calle.usuarios= users;
             } 
             this.calle.index= index;
         },
@@ -149,11 +138,14 @@
             this.calle.usuarios= [];
             this.calle.index= '';
         },
-        eliminarUsuario(index){
-            this.calle.usuarios.splice(index, 1);
-            this.calles[this.calle.index]= this.calle;
-            localStorage.setItem('calles', JSON.stringify(this.calles));
-            this.$emit('getDatos');
+        // eliminarUsuario(index){
+        //     this.calle.usuarios.splice(index, 1);
+        //     this.calles[this.calle.index]= this.calle;
+        //     localStorage.setItem('calles', JSON.stringify(this.calles));
+        //     this.$emit('getDatos');
+        // },
+        verUsuario(index){
+            console.log(this.usuarios[index]); //mostrar una alerta con los detalles del usuario o redirigirlo a otra vista
         },
         formEdit(calle, index){
             this.calle.nombre = calle;
@@ -161,8 +153,9 @@
             this.vistaSimplificada= -1;
         },
         editarCalle(){
-            this.calles[this.calle.index]= this.calle.nombre.toLowerCase();
+            this.calles[this.calle.index]= this.calle.nombre;
             localStorage.setItem('calles', JSON.stringify(this.calles));
+            this.$emit('getDatos');
             this.vistaSimplificada= 0;
         }
     }

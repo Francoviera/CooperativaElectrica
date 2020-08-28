@@ -44,7 +44,7 @@
                   {{usuario.nombre}} {{usuario.apellido}}
                 </ion-col>
                 <ion-col>
-                  {{usuario.direccion}} 
+                  {{usuario.direccion.calle}} {{usuario.direccion.numero}} 
                 </ion-col>
                 <ion-col>
                   {{usuario.socio}}
@@ -59,6 +59,12 @@
 
         <ion-card v-show="agregandoMedicion">
             <ion-card-content v-show="!formEdit">
+              <ion-buttons slot="primary">
+                <ion-button size="small" color="medium" slot="start" @click="invertirVista()">
+                    <ion-icon name="ios-arrow-dropleft" ></ion-icon>
+                    <ion-label>  Atras</ion-label>
+                </ion-button> 
+              </ion-buttons>
               <form @submit.prevent="agregarMedicion">
                 <ion-item>
                   <ion-item>
@@ -91,6 +97,12 @@
           </ion-card-content> 
 
           <ion-card-content v-show="formEdit">
+              <ion-buttons slot="primary">
+                <ion-button size="small" color="medium" slot="start" @click="invertirVista()">
+                    <ion-icon name="ios-arrow-dropleft" ></ion-icon>
+                    <ion-label>  Atras</ion-label>
+                </ion-button> 
+              </ion-buttons>
               <form @submit.prevent="editarMedicion">
                 <ion-item>
                   <ion-item>
@@ -241,6 +253,17 @@
         this.usuario= usuario;
         this.index= index;
       },
+      invertirVista(){
+        this.medicion.kwh={
+          lectura: '',
+          consumo: ''
+        }
+        this.medicion.agua={
+          lectura: '',
+          consumo: ''
+        },
+        this.agregandoMedicion= false;
+      },
       agregarMedicion(){
         if(this.medicion.kwh.lectura != '' && this.medicion.kwh.consumo != '' && this.medicion.agua.lectura != '' && this.medicion.agua.consumo != ''){
           this.usuarios[this.index].estados.push({
@@ -316,7 +339,9 @@
               consumo: ''
             },
           }         
-          localStorage.setItem('usuarios', JSON.stringify(this.usuarios));         
+          localStorage.setItem('usuarios', JSON.stringify(this.usuarios));    
+          
+          this.invertirVistaEdit();
         }else{
           alert("Porfavor complete todos los campos");
         }

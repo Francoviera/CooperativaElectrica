@@ -1,65 +1,58 @@
-<template>
+<template>   
     <ion-card-content>     
         <form @submit.prevent="agregar">
+            
             <ion-item>
-                <ion-item>
-                    <ion-label position="floating">Nombre</ion-label>
-                    <ion-input class="form-control" :value="ruta.nombre" @input= "ruta.nombre = $event.target.value"></ion-input>
-                </ion-item>
+                <ion-label position="floating">Nombre</ion-label>
+                <ion-input class="form-control" :value="ruta.nombre" @input= "ruta.nombre = $event.target.value"></ion-input>
+            </ion-item>
+            <ion-item>
+              <ion-label position="floating">Seleccione</ion-label>
+                <ion-select :placeholder="ruta.calles" multiple="true" :value="ruta.calles" @ionChange="ruta.calles= $event.target.value">
+                    <ion-select-option  v-for="(calle, index) of calles" :key="index" :value="calle">{{calle}}</ion-select-option>
+                </ion-select>
             </ion-item>
             <ion-card-content>
-            <ion-button type="submit" expand="block">Agregar</ion-button>
-        </ion-card-content>
+                <ion-button type="submit" expand="block">Agregar</ion-button>
+            </ion-card-content>
         </form>
     </ion-card-content>
 </template>
 <script>
   export default {
+    props:['rutas','calles', 'usuarios'],
     data(){
       return{
-        rutas: [],
         ruta: {
-            nombre: '',
-            usuarios: [],
-            calles: [],
+          nombre: '',
+          calles: [],
         },
-        usuarios: [],    
-
       }
     },
     mounted(){
-        let datosDB= JSON.parse(localStorage.getItem('rutas'));
-        if(datosDB != null){
-            this.usuarios = datosDB;
-        }
-        datosDB= JSON.parse(localStorage.getItem('rutas'));
-        if(datosDB != null){
-            this.rutas = datosDB;
-        }
+      console.log(this.ruta.calles);
     },
     methods: {
       agregar(){
-        this.rutas.push({
-          nombre: this.nombre,
-          apellido: this.apellido,
-          direccion: this.direccion,
-          categoria: this.categoria,
-          clave: this.clave,
-          socio: this.socio,
-          estados: []
-        });
-        this.nombre= '';
-        this.apellido= '';
-        this.direccion= '';
-        this.categoria= '';
-        this.clave= '';
-        this.socio= '';
-        localStorage.setItem('usuarios', JSON.stringify(this.usuarios));
+        let arreglo= this.ruta.calles.split(",");
+
+        if(this.ruta.nombre != ''){
+            this.rutas.push({
+                nombre: this.ruta.nombre,
+                calles: arreglo
+            });
+            localStorage.setItem('rutas', JSON.stringify(this.rutas));
+            
+            this.ruta.nombre= '';
+            this.ruta.calles= [];
+
+            this.$emit('getDatos');
+            this.$emit('pagRutas');
+        }else{
+            alert("Porfavor complete todos los Campos")
+        }
+
       },
-      eliminar(index){
-        this.usuarios.splice(index, 1);
-        localStorage.setItem('usuarios', JSON.stringify(this.usuarios));
-      }
     }
   }
 </script>
