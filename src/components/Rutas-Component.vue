@@ -68,11 +68,11 @@
                             <ion-input class="form-control" :value="ruta.nombre.toLowerCase()" @input= "ruta.nombre = $event.target.value"></ion-input>
                         </ion-item>
                         <ion-item>
-                            <ion-label v-if="(ruta.calles != [])" position="floating">Seleccione</ion-label>
+                            <ion-label v-if="(ruta.callesEdit != [])" position="floating">Seleccione</ion-label>
                             <ion-label v-else >Seleccione</ion-label>
-                            <ion-select :placeholder="ruta.calles" multiple="true" :value="ruta.calles" @ionChange="ruta.calles= $event.target.value">
+                            <ion-select :placeholder="ruta.callesEdit" multiple="true" :value="ruta.calles" @ionChange="ruta.callesEdit= $event.target.value">
                                 <div v-for="(calle, index) of calles" :key="index">
-                                    <ion-select-option v-if=" ruta.calles.includes(calle)" selected= true :value="calle">{{calle}}</ion-select-option>
+                                    <ion-select-option v-if=" ruta.callesEdit.includes(calle)" selected= true :value="calle">{{calle}}</ion-select-option>
 
                                     <ion-select-option v-else :value="calle">{{calle}}</ion-select-option>
                                 </div>
@@ -96,6 +96,7 @@
         ruta:{
             nombre: '',
             calles: [],
+            callesEdit: [],
             index: '',
         },
         direcciones: '',
@@ -105,10 +106,9 @@
     computed:{       
       searchCalles: function () {
         if(this.vistaSimplificada === 1){
-            return this.ruta.calles.filter((item) => item.includes(this.filtro));
+            return this.ruta.calles.filter((item) => item.includes(this.filtro)); 
         }else{
-            return ' ';
-        }
+            return '';        }
       },
       
     },
@@ -134,14 +134,23 @@
         cambiarVista(ruta, index){
             this.vistaSimplificada= 1;
             this.ruta.nombre= ruta.nombre;
-            this.ruta.calles= ruta.calles;
+            for (const ruta of ruta.calles) {
+                this.ruta.calles.push(ruta);
+            }
             this.ruta.index= index;
         },
         invertirVista(){ 
+            this.ruta= {
+                nombre: '',
+                calles: [],
+                callesEdit: [],
+                index: ''
+            }
+
+            // this.ruta.nombre= '';
+            // this.ruta.calles= new Array(2);
+            // this.ruta.index= '';
             this.vistaSimplificada= 0;
-            this.ruta.nombre= '';
-            this.ruta.calles= [];
-            this.ruta.index= '';
         },
         // eliminarUsuario(index){
         //     this.calle.usuarios.splice(index, 1);
@@ -154,12 +163,12 @@
         },
         formEdit(ruta, index){
             this.ruta.nombre = ruta.nombre;
-            this.ruta.calles = ruta.calles;
+            this.ruta.callesEdit= ruta.calles;
             this.ruta.index= index;
             this.vistaSimplificada= -1;
         },
         editarCalle(){
-            let arreglo= this.ruta.calles.split(",");
+            let arreglo= this.ruta.callesEdit.split(",");
             this.rutas[this.ruta.index]= {
                 nombre: this.ruta.nombre,
                 calles: arreglo
