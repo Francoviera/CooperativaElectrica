@@ -26,7 +26,7 @@
             <router-link to="/rutas" style="text-decoration:none"><ion-icon name="git-branch"></ion-icon> Rutas </router-link>
           </ion-item>
           <ion-item class="active">
-            <router-link to="/configuracion" style="text-decoration:none"><ion-icon name="settings"></ion-icon> Configuraciones </router-link>
+            <router-link to="/configuraciones" style="text-decoration:none"><ion-icon name="settings"></ion-icon> Configuraciones </router-link>
           </ion-item>
         </ion-list>
       </ion-content>
